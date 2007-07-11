@@ -3,7 +3,7 @@
 
 Name:           jrpm
 Version:        0.9
-Release:        %mkrel 1
+Release:        %mkrel 1.1.1
 Epoch:          0
 Summary:        Java library to manipulate and create RPM archives
 License:        Apache License
@@ -16,9 +16,12 @@ Source3:        %{name}.applications
 Source4:        %{name}-16x16.png
 Source5:        %{name}-32x32.png
 Source6:        %{name}-64x64.png
+Requires(post): desktop-file-utils
+Requires(postun): desktop-file-utils
 Requires:       java
 Requires:       jpackage-utils >= 0:1.6
 BuildRequires:  ant
+BuildRequires:  desktop-file-utils
 BuildRequires:  jpackage-utils >= 0:1.6
 %if %{gcj_support}
 Requires(post): java-gcj-compat
@@ -29,11 +32,6 @@ BuildRequires:  java-devel
 BuildArch:      noarch
 %endif
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root
-#Vendor:        JPackage Project
-#Distribution:  JPackage
-BuildRequires:  desktop-file-utils
-Requires(post): desktop-file-utils
-Requires(postun): desktop-file-utils
 
 %description
 jRPM is a Java version of RPM. It includes a packager as well as a
@@ -51,13 +49,13 @@ Javadoc for %{name}.
 %prep
 %setup -q -n %{name}-%{version}-src
 %{__perl} -pi -e 's|<javac|<javac nowarn="true"|g' build.xml
-%{_bindir}/find . -type d -name .svn | xargs %{__rm} -r
-%{_bindir}/find . -type f -name '*.jar' | xargs %{__rm}
-%{_bindir}/find . -type f -name '*.rpm' -o -name '*.hdr' | xargs %{__rm}
+%{_bindir}/find . -type d -name .svn | %{_bindir}/xargs %{__rm} -r
+%{_bindir}/find . -type f -name '*.jar' | %{_bindir}/xargs %{__rm}
+%{_bindir}/find . -type f -name '*.rpm' -o -name '*.hdr' | %{_bindir}/xargs %{__rm}
 
 %build
 export CLASSPATH=
-export OPT_JAR_LIST=
+export OPT_JAR_LIST=:
 %{ant} jar javadocs
 
 %install
@@ -68,11 +66,7 @@ export OPT_JAR_LIST=
 (cd %{buildroot}%{_javadir} && for jar in *-%{version}*; do %{__ln_s} ${jar} ${jar/-%{version}/}; done)
 
 %{__mkdir_p} %{buildroot}%{_bindir}
-%{__perl} -pe \
-  's|/usr/lib|%{_libdir}|g ;
-   s|/usr/share|%{_datadir}|g' \
-  %{SOURCE1} > %{buildroot}%{_bindir}/%{name}
-%{__chmod} 755 %{buildroot}%{_bindir}/%{name}
+%{__perl} -pe 's|/usr/lib|%{_libdir}|g;s|/usr/share|%{_datadir}|g' %{SOURCE1} > %{buildroot}%{_bindir}/%{name}
 
 %{__mkdir_p} %{buildroot}%{_javadocdir}/%{name}-%{version}
 %{__cp} -a _build/javadocs/* %{buildroot}%{_javadocdir}/%{name}-%{version}
@@ -144,5 +138,3 @@ export OPT_JAR_LIST=
 %defattr(0644,root,root,0755)
 %doc %{_javadocdir}/%{name}-%{version}
 %doc %{_javadocdir}/%{name}
-
-
