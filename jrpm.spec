@@ -3,7 +3,7 @@
 
 Name:           jrpm
 Version:        0.9
-Release:        %mkrel 1.1.1
+Release:        %mkrel 1.1.2
 Epoch:          0
 Summary:        Java library to manipulate and create RPM archives
 License:        Apache License
@@ -24,8 +24,6 @@ BuildRequires:  ant
 BuildRequires:  desktop-file-utils
 BuildRequires:  jpackage-utils >= 0:1.6
 %if %{gcj_support}
-Requires(post): java-gcj-compat
-Requires(postun): java-gcj-compat
 BuildRequires:  java-gcj-compat-devel
 %else
 BuildRequires:  java-devel
