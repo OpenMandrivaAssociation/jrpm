@@ -29,6 +29,7 @@ BuildRequires:  java-gcj-compat-devel
 BuildRequires:  java-devel
 BuildArch:      noarch
 %endif
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root
 
 %description
 jRPM is a Java version of RPM. It includes a packager as well as a
