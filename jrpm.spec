@@ -8,7 +8,7 @@ Epoch:          0
 Summary:        Java library to manipulate and create RPM archives
 License:        Apache License
 Group:          Development/Java
-URL:            http://jrpm.sourceforge.net/
+URL:            https://jrpm.sourceforge.net/
 Source0:        http://umn.dl.sourceforge.net/sourceforge/jrpm/jrpm-%{version}-src.tar.gz
 Source1:        %{name}.script
 Source2:        %{name}.desktop
