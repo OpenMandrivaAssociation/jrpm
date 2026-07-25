@@ -3,7 +3,7 @@
 
 Name:           jrpm
 Version:        0.9
-Release:        %mkrel 1.1.5
+Release:        2
 Epoch:          0
 Summary:        Java library to manipulate and create RPM archives
 License:        Apache License
